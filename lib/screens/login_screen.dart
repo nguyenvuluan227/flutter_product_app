@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_product_app/screens/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -29,7 +30,15 @@ class _LoginScreenState extends State<LoginScreen> {
             Icons.arrow_back,
             color: Colors.white,
           ),
-          onPressed: Navigator.of(context).pop,
+          onPressed: () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => const HomeScreen(
+                  isLoggedIn: true,
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
