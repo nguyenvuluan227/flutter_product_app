@@ -5,6 +5,8 @@ import 'package:flutter_product_app/screens/register_screen.dart';
 import 'package:flutter_product_app/services/remote_service.dart';
 
 class HomeScreen extends StatefulWidget {
+  final bool isLoggedIn = false;
+
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -66,38 +68,42 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(10.0),
               itemCount: products?.length,
               itemBuilder: (context, index) {
-                return Container(
-                  margin: const EdgeInsets.only(top: 16, bottom: 8),
-                  padding: const EdgeInsets.all(8),
-                  decoration: const BoxDecoration(
-                    color: Colors.lightBlue,
-                    borderRadius: BorderRadius.horizontal(
-                      left: Radius.circular(12.0),
-                      right: Radius.circular(12.0),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        products != null ? products![index].sku : "",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
+                return !isLoaded
+                    ? const Center(child: CircularProgressIndicator())
+                    : Container(
+                        margin: const EdgeInsets.only(top: 8, bottom: 8),
+                        padding: const EdgeInsets.all(8),
+                        decoration: const BoxDecoration(
+                          color: Colors.lightBlue,
+                          borderRadius: BorderRadius.horizontal(
+                            left: Radius.circular(12.0),
+                            right: Radius.circular(12.0),
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        products != null ? products![index].productName : "",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              products != null ? products![index].sku : "",
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              products != null
+                                  ? products![index].productName
+                                  : "",
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                );
+                      );
               },
             ),
           ),
