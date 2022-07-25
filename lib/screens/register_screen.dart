@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_product_app/models/response/login_response.dart';
 import 'package:flutter_product_app/services/remote_service.dart';
 
 import '../models/response/register_response.dart';
@@ -32,27 +33,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
     setState(() {
       _isLoading = true;
     });
-    RegisterReponse? res = await RemoteService().doRegister(_emailController.text, _passwordController.text);
+    RegisterReponse? res = await RemoteService()
+        .doRegister(_emailController.text, _passwordController.text);
     setState(() {
       _isLoading = false;
     });
     if (res?.success != true) {
-      print('register_screen + ${_emailController.text} + ${_passwordController.text}');
-      print('register_screen + ${res?.success}');
-      if (res?.message != null) showSnackBar(context, res!.message);
+      if (res?.message != null) showSnackBar(context, "The email has already been taken.");
     } else {
-      onLoginSuccess();
+      doLogin();
     }
   }
 
-  void onLoginSuccess() {
+  void onLoginSuccess(String token) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => const HomeScreen(
+        builder: (context) => HomeScreen(
           isLoggedIn: true,
+          token: token,
         ),
       ),
     );
+  }
+
+  void doLogin() async {
+    setState(() {
+      _isLoading = true;
+    });
+    LoginResponse? res = await RemoteService()
+        .doLogin(_emailController.text, _passwordController.text);
+    setState(() {
+      _isLoading = false;
+    });
+    if (res?.token == null) {
+      showSnackBar(context, "abcxyz");
+    } else {
+      onLoginSuccess(res!.token);
+    }
   }
 
   void navigateToLogin() {

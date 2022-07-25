@@ -6,10 +6,12 @@ import 'package:flutter_product_app/services/remote_service.dart';
 
 class HomeScreen extends StatefulWidget {
   final bool isLoggedIn;
+  final String? token;
 
   const HomeScreen({
     Key? key,
     this.isLoggedIn = false,
+    this.token,
   }) : super(key: key);
 
   @override

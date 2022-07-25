@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_product_app/models/response/login_response.dart';
 import 'package:flutter_product_app/models/response/product_response.dart';
 import 'package:flutter_product_app/models/response/register_response.dart';
 import 'package:flutter_product_app/services/api_service.dart';
@@ -31,6 +32,24 @@ class RemoteService {
     if (response.statusCode == 200) {
       var json = response.body;
       return registerFromJson(json);
+    }
+  }
+
+  Future<LoginResponse?> doLogin(String email, String password) async {
+    var client = http.Client();
+    var uri = Uri.parse(ApiService.BASE_URL + ApiService.LOGIN);
+    Map<String, String> headers = {
+      'Content-type': 'application/json; charset=UTF-8'
+    };
+    var response = await client.post(uri,
+        headers: headers,
+        body: jsonEncode(<String, String>{
+          'email': email,
+          'password': password,
+        }));
+    if (response.statusCode == 200) {
+      var json = response.body;
+      return loginFromJson(json);
     }
   }
 }
