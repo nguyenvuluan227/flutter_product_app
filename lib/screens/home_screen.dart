@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_product_app/models/product.dart';
+import 'package:flutter_product_app/models/response/product_response.dart';
 import 'package:flutter_product_app/screens/login_screen.dart';
 import 'package:flutter_product_app/screens/register_screen.dart';
 import 'package:flutter_product_app/services/remote_service.dart';
@@ -17,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Product>? products;
+  List<ProductResponse>? products;
   bool isLoaded = false;
 
   @override
@@ -127,6 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       centerTitle: false,
       automaticallyImplyLeading: false,
+      backgroundColor: Colors.lightBlue,
     );
   }
 

@@ -1,13 +1,13 @@
 
 import 'dart:convert';
 
-List<Product> productFromJson(String str) =>
-    List<Product>.from(json.decode(str).map((x) => Product.fromJson(x)));
+List<ProductResponse> productFromJson(String str) =>
+    List<ProductResponse>.from(json.decode(str).map((x) => ProductResponse.fromJson(x)));
 
-String productToJson(List<Product> data) =>
+String productToJson(List<ProductResponse> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Product {
+class ProductResponse {
   int id;
   String sku;
   String productName;
@@ -19,7 +19,7 @@ class Product {
   DateTime createdAt;
   DateTime updatedAt;
 
-  Product({
+  ProductResponse({
     required this.id,
     required this.sku,
     required this.productName,
@@ -32,7 +32,7 @@ class Product {
     required this.updatedAt,
   });
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
+  factory ProductResponse.fromJson(Map<String, dynamic> json) => ProductResponse(
         id: json["id"],
         sku: json["sku"],
         productName: json["product_name"],

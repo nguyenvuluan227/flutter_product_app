@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_product_app/services/remote_service.dart';
 
+import '../models/response/register_response.dart';
 import '../utils/utils.dart';
 import '../widgets/text_field_input.dart';
 import 'home_screen.dart';
@@ -30,14 +32,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
     setState(() {
       _isLoading = true;
     });
-    String res = "";
+    RegisterReponse? res = await RemoteService().doRegister(_emailController.text, _passwordController.text);
     setState(() {
-      _isLoading = true;
+      _isLoading = false;
     });
-    if (res != 'success') {
-      showSnackBar(context, res);
+    if (res?.success != true) {
+      print('register_screen + ${_emailController.text} + ${_passwordController.text}');
+      print('register_screen + ${res?.success}');
+      if (res?.message != null) showSnackBar(context, res!.message);
     } else {
-      //
       onLoginSuccess();
     }
   }
@@ -106,15 +109,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(
                 height: 24,
               ),
-              //text input username
-              TextFieldInput(
-                hintText: 'Enter your username',
-                textInputType: TextInputType.text,
-                textEditingController: _usernameController,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
               //text input email
               TextFieldInput(
                 hintText: 'Enter your email',
@@ -152,7 +146,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: _isLoading
                       ? const Center(
                           child: CircularProgressIndicator(
-                            color: Colors.blue,
+                            color: Colors.white,
                           ),
                         )
                       : const Text(
@@ -176,7 +170,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     padding: const EdgeInsets.symmetric(
                       vertical: 8,
                     ),
-                    child: const Text("Don't have an account?"),
+                    child: const Text("Already have an account?"),
                   ),
                   GestureDetector(
                     onTap: navigateToLogin,
