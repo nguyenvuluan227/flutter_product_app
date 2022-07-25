@@ -126,6 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       centerTitle: false,
+      automaticallyImplyLeading: false,
     );
   }
 

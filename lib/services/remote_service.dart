@@ -3,6 +3,7 @@ import 'package:flutter_product_app/services/api_service.dart';
 import 'package:http/http.dart' as http;
 
 class RemoteService {
+
   Future<List<Product>?> getProducts() async {
     var client = http.Client();
     var uri = Uri.parse(ApiService.GET_PRODUCTS);
@@ -12,4 +13,5 @@ class RemoteService {
       return productFromJson(json);
     }
   }
+
 }
