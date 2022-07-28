@@ -66,7 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _isLoading = false;
     });
     if (res?.token == null) {
-      showSnackBar(context, "abcxyz");
+      showSnackBar(context, "");
     } else {
       onLoginSuccess(res!.token);
     }

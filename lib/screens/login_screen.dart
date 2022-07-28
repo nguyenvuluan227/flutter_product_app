@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_product_app/screens/home_screen.dart';
 
+import '../models/response/login_response.dart';
+import '../services/remote_service.dart';
 import '../utils/utils.dart';
 import '../widgets/text_field_input.dart';
 
@@ -31,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (res == "success") {
       //
-      onLoginSuccess();
+      doLogin();
     } else {
       //
       showSnackBar(context, res);
@@ -41,14 +43,30 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  void onLoginSuccess() {
+  void onLoginSuccess(String token) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => const HomeScreen(
+        builder: (context) => HomeScreen(
           isLoggedIn: true,
+          token: token,
         ),
       ),
     );
+  }
+
+  void doLogin() async {
+    setState(() {
+      _isLoading = true;
+    });
+    LoginResponse? res = await RemoteService().doLogin(_emailController.text, _passwordController.text);
+    setState(() {
+      _isLoading = false;
+    });
+    if (res?.token == null) {
+      showSnackBar(context, "");
+    } else {
+      onLoginSuccess(res!.token);
+    }
   }
 
   @override
@@ -117,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               //button login
               InkWell(
-                onTap: loginUser,
+                onTap: doLogin,
                 child: Container(
                   width: double.infinity,
                   alignment: Alignment.center,
@@ -133,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: _isLoading
                       ? const Center(
                           child: CircularProgressIndicator(
-                            color: Colors.blue,
+                            color: Colors.white,
                           ),
                         )
                       : const Text(

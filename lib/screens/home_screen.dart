@@ -29,7 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   getData() async {
-    products = await RemoteService().getProducts();
+    print('token: ${widget.token}');
+    products = await RemoteService().getProducts(widget.token);
     if (products != null) {
       setState(() {
         isLoaded = true;
